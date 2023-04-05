@@ -5,10 +5,12 @@ char mt[105][105];
 int dx[] = {-1,0,1,0,-1,-1,1,1},
     dy[] = {0,1,0,-1,1,-1,-1,1},
     x,y,cont;
+    
 
 void florida(int sizei,int sizej,int i,int j){
 	cont++;
     vis[i][j] = true;
+    
     for(int k=0; k<8; k++){
 		x = dx[k] + i;
 		y = dy[k] + j;
@@ -20,9 +22,11 @@ void florida(int sizei,int sizej,int i,int j){
 int main(){
 	
 	int l,k,c,a,b;
-    string frase,frase1,frase2;
+    string frase;
     vector<pair<int,int> > vc;
-    freopen("12","w",stdout);
+    freopen("in","r",stdin);
+    freopen("12.txt","w",stdout);
+   
 	cin>>c;
     cin.ignore();
     getline(cin,frase);
@@ -31,9 +35,9 @@ int main(){
         k=0;
         while(getline(cin,frase)&&frase.size()>0){
             if(frase[0]>57){
-                for(l=0;l<frase.size();l++){
+                for(l=0;l<(int)frase.size();l++){
                     mt[k][l]=frase[l];
-                }
+                }  
                 k++;
             }
             else{
@@ -46,18 +50,14 @@ int main(){
 				vc.push_back({a,b});
             }
 		}
-		/*for(int i=0;i<(int)vc.size();i++){
-			cout<<vc[i].first<<" "<<vc[i].second<<endl;
-		}*/
+		
         for(int i=0;i<(int)vc.size();i++){
-            memset(vis,false,sizeof(vis));
+			memset(vis,false,sizeof(vis));
             cont=0;
-			florida(l,k,vc[i].first,vc[i].second),cout<<cont<<endl;
+			florida(k,l,vc[i].first,vc[i].second);
+			cout<<cont<<endl;
 		}
+		if(c) cout << "\n";
 		vc.clear();
-		
-		getline(cin,frase);
-		
-		
 	}
 }
