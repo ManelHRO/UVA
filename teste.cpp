@@ -2,7 +2,9 @@
 using namespace std;
 bool vis[105][105];
 char mt[105][105];
-int dx[] = {1, 0, -1, 0, -1, 1, -1, 1},dy[] = {0, 1, 0, -1, 1, 1, -1, -1},x,y,cont=0;
+int dx[] = {-1,0,1,0,-1,-1,1,1},
+    dy[] = {0,1,0,-1,1,-1,-1,1},
+    x,y,cont;
 
 void florida(int sizei,int sizej,int i,int j){
 	cont++;
@@ -20,7 +22,6 @@ int main(){
 	int l,k,c,a,b;
     string frase,frase1,frase2;
     vector<pair<int,int> > vc;
-    stringstream ss;
     freopen("12","w",stdout);
 	cin>>c;
     cin.ignore();
@@ -36,26 +37,26 @@ int main(){
                 k++;
             }
             else{
-				ss<<frase;
-				cout<<frase<<endl;
-				cout<<'f'<<frase2<<" "<<frase1<<endl;
-				ss>>frase2>>frase1;
-                a=stoi(frase2);
-                b=stoi(frase1);
-                vc.push_back({a,b});
+                stringstream ss;
+                ss<<frase;
+				ss>>frase;
+				a=stoi(frase)-1;
+				ss>>frase;
+				b=stoi(frase)-1;
+				vc.push_back({a,b});
             }
 		}
 		/*for(int i=0;i<(int)vc.size();i++){
 			cout<<vc[i].first<<" "<<vc[i].second<<endl;
 		}*/
-        /*for(int i=0;i<(int)vc.size();i++){
-			if(!vis[vc[i].first][vc[i].second]) florida(l,k,vc[i].first,vc[i].second),cout<<cont<<endl;
-			cont=0;
+        for(int i=0;i<(int)vc.size();i++){
+            memset(vis,false,sizeof(vis));
+            cont=0;
+			florida(l,k,vc[i].first,vc[i].second),cout<<cont<<endl;
 		}
 		vc.clear();
-		memset(vis,false,sizeof(vis));
 		
-		getline(cin,frase);*/
+		getline(cin,frase);
 		
 		
 	}
