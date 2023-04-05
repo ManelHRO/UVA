@@ -24,10 +24,8 @@ int main(){
 	int l,k,c,a,b;
     string frase;
     vector<pair<int,int> > vc;
-    freopen("in","r",stdin);
-    freopen("12.txt","w",stdout);
    
-	cin>>c;
+    cin>>c;
     cin.ignore();
     getline(cin,frase);
     
