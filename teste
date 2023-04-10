@@ -1,47 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
-bool vis[105][105];
-int mt[105][105];
-int dx[] = {-1,0,1,0,-1,-1,1,1},dy[] = {0,1,0,-1,1,-1,-1,1},x,y,soma,k;
-    
-void square(int n,int i,int j){
-
-    if(j>=0 and j<n-k and !vis[i][j]){ //correto
-        vis[i][j]=true;
-        soma+=mt[i][j];
-        return square(n,i,j+1);
-    }
-    if(!vis[i+1][j-1] and i<n and i+1<n-k){ //correto
-        vis[i+1][j-1]=true;
-        soma+=mt[i+1][j-1];
-        return square(n,i+1,j);
-    }
-    
-    if(!vis[i][j] and i>=0 and i<n and i>k){
-        vis[i][j]=true;
-        soma+=mt[i][j],square(n,i-1,j);
-    }
-    
-    /*if(!vis[i][j] and j>=0 and j<n and j>k){
-        vis[i][j]=true;
-        soma+=mt[i][j],square(n,i,j-1);
-    }*/
-}
 int main(){
-    
-    int n;
-    while(cin>>n and n){
-        
-        for(int i=0;i<n;i++)
-            for(int j=0;j<n;j++)
-                cin>>mt[i][j];
-        soma=0;
-        for(int i=0;i<1;i++){
-            if(!vis[i][i]){
-                k=i,
-                square(n,i,i);
-            }
-            
-        }
-    }
+	
+	int n,soma,i,j;
+	cin>>n;
+	int mt[n][n];
+	
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			cin>>mt[i][j];
+		}
+	}
+	for(int k=0;k<=n/2;k++){
+		soma=0;
+		for(j=k;j<n-k;j++){
+			soma+=mt[k][j];
+		}
+		for(i=k+1;i+1<n-k;i++){
+			soma+=mt[i][j-1];
+		}
+		for(j=j-1;j>=k;j--){
+			soma+=mt[i][j];
+		}
+		for(i=i-1,j+=1;i>k;i--){
+			soma+=mt[i][j];
+		}
+		cout<<soma<<endl;
+	}
 }
