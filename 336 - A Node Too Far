@@ -2,9 +2,9 @@
 
 using namespace std;
 
-map<long long int,vector<long long int>> mp;
-map
-int dist[100000];
+unordered_map<long long int,vector<long long int>> mp;
+unordered_map<int,int>dist;
+
 int range;
 
 void bfs(int v, int r){
@@ -28,9 +28,8 @@ void bfs(int v, int r){
 
 signed main(){
 	
-	
 	int n,a,b,saida=0;
-	//~ freopen("12","w",stdout);
+	
 	cin>>n;
 	while(n){
 		
@@ -46,8 +45,9 @@ signed main(){
 	
 		cin>>a>>b;
 		while(a||b){
-			
-			memset(dist,-1,sizeof(dist));
+			for(auto k: nodes){
+				dist[k] = -1;
+			}
 			range=1;
 			bfs(a,b);
 			cout<<"Case "<<++saida<<": "<<(nodes.count(a) ? (int)nodes.size()-range : (int)nodes.size())<<" nodes not reachable from node "<<a<<" with TTL = "<<b<<'.'<<endl;
