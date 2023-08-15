@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+map<string,int> words;
+map<string,bool> vis;
+
+bool vf(string aux,string word){
+	int carac=0;
+    for(int i=0;i<(int)aux.size();i++){
+        if(aux[i]!=word[i]) carac++;
+    }
+    if(carac==1) return true;
+    return false;
+    
+}
+
+void bfs(string pala1){
+	queue<string> q;
+	q.push(pala1);
+	vis[pala1]=true;
+	
+	while(!q.empty()){
+		string aux = q.front();
+		q.pop();
+
+		for(auto k=words.begin();k!=words.end();k++){
+			if(aux.size()==k->first.size() and vf(aux,k->first) and !vis[k->first]){
+				k->second = words[aux]+1;
+				q.push(k->first);
+				vis[k->first]=true;
+			}
+		}
+	}
+}
+
+
+int main(){
+	
+	int n;
+	string frase,pala1,pala2;
+	
+	cin>>n;
+	getline(cin.ignore(),frase); 
+	
+	while(n--){
+		while(cin>>frase and frase!="*"){
+			words[frase]=0;
+			vis[frase]=false;	
+		}
+		cin.ignore();
+		while(getline(cin,frase) and frase.size()!=0){
+			stringstream ss;
+			ss<<frase;
+			ss>>pala1>>pala2;
+			
+			bfs(pala1);
+			cout<<pala1<<" "<<pala2<<" "<<words[pala2]<<endl;
+			for(auto it=words.begin();it!=words.end();it++){
+				it->second=0;
+				vis[it->first]=false;
+			}
+		}
+		words.clear();
+		if(n>0) cout<<endl;
+	}
+}
