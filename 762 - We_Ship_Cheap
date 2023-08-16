@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> adj[10002];
+int pai[10002];
+map<string,int> mp;
+map<int,string> mpaux;
+bool vis[10002];
+
+bool bfs(int in,int out){
+	
+    int aux= in;
+    vis[aux]=true;
+	pai[out]=-2;
+    pai[aux]=-1;
+    
+    queue<int> q;
+    q.push(aux);
+
+    while(!q.empty()){
+        aux = q.front();q.pop();
+        for(auto x : adj[aux]){
+            if(!vis[x]){
+                pai[x]=aux;
+                vis[x]=true;
+                q.push(x);
+            }
+        }
+    }
+    return(pai[out]==0);
+    
+}
+
+void imp(int i){
+    if(pai[i]==-1) return;
+    imp(pai[i]);
+    cout<<mpaux[pai[i]]<<" "<<mpaux[i]<<endl;
+}
+
+int main(){
+    int n,cont,a,b;
+    string x,y;
+    freopen("12","w",stdout);
+    while(cin>>n){
+        
+        cont=0;
+        memset(vis,false,sizeof(vis));
+        memset(pai,-1,sizeof(pai));
+        for(int i=0;i<n*2;i++) adj[i].clear();
+        mp.clear();
+        mpaux.clear();
+        
+        for(int i=0;i<n;i++){
+            cin>>x>>y;
+            if(mp.count(x)){ a=mp[x];}
+            else{
+				a = cont;
+				mpaux[a]=x;
+                mp[x]=cont++;
+            }
+            if(mp.count(y)){ b=mp[y];}
+            else{
+				b = cont;
+				mpaux[b]=y;
+                mp[y]=cont++;
+            }
+            adj[a].push_back(b);
+            adj[b].push_back(a);
+        }
+        cin>>x>>y;
+  
+        
+        if(bfs(mp[x],mp[y])) cout<<"No route"<<endl;
+        else imp(mp[y]);
+        cout<<endl;
+        
+        getline(cin.ignore(),x);
+    }
+}
