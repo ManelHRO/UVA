@@ -6,13 +6,12 @@ map<string,int> mp;
 map<int,string> mpaux;
 bool vis[10002];
 
-bool bfs(int in,int out){
+void bfs(int in){
 	
     int aux= in;
     vis[aux]=true;
-	pai[out]=-2;
+
     pai[aux]=-1;
-    
     queue<int> q;
     q.push(aux);
 
@@ -26,8 +25,6 @@ bool bfs(int in,int out){
             }
         }
     }
-    return(pai[out]==0);
-    
 }
 
 void imp(int i){
@@ -39,7 +36,7 @@ void imp(int i){
 int main(){
     int n,cont,a,b;
     string x,y;
-    freopen("12","w",stdout);
+    
     while(cin>>n){
         
         cont=0;
@@ -68,10 +65,9 @@ int main(){
         }
         cin>>x>>y;
   
-        
-        if(bfs(mp[x],mp[y])) cout<<"No route"<<endl;
+        bfs(mp[x]);
+        if(pai[mp[y]]==-1 and pai[mp[y]]!=0) cout<<"No route"<<endl;
         else imp(mp[y]);
-        cout<<endl;
         
         getline(cin.ignore(),x);
     }
