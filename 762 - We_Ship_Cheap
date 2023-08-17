@@ -1,17 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
-vector<int> adj[10002];
-int pai[10002];
+
+vector<int> adj[100002];
+int pai[100002];
 map<string,int> mp;
 map<int,string> mpaux;
-bool vis[10002];
+bool vis[100002];
 
-void bfs(int in){
+bool bfs(int in,int out){
 	
     int aux= in;
     vis[aux]=true;
 
     pai[aux]=-1;
+    
     queue<int> q;
     q.push(aux);
 
@@ -25,6 +27,7 @@ void bfs(int in){
             }
         }
     }
+    return (pai[out]!=-1);
 }
 
 void imp(int i){
@@ -36,13 +39,14 @@ void imp(int i){
 int main(){
     int n,cont,a,b;
     string x,y;
+    bool flag=false;
     
     while(cin>>n){
-        
+        if(flag) cout<<endl;
         cont=0;
         memset(vis,false,sizeof(vis));
         memset(pai,-1,sizeof(pai));
-        for(int i=0;i<n*2;i++) adj[i].clear();
+        for(int i=0;i<100002;i++) adj[i].clear();
         mp.clear();
         mpaux.clear();
         
@@ -64,11 +68,13 @@ int main(){
             adj[b].push_back(a);
         }
         cin>>x>>y;
-  
-        bfs(mp[x]);
-        if(pai[mp[y]]==-1 and pai[mp[y]]!=0) cout<<"No route"<<endl;
-        else imp(mp[y]);
+		
+		bool ok=false;
+		
+        if(mp.count(x) and mp.count(y)) ok=bfs(mp[x],mp[y]);
+        if(ok) imp(mp[y]);
+        else cout<<"No route"<<endl;
         
-        getline(cin.ignore(),x);
+        flag=true;
     }
 }
