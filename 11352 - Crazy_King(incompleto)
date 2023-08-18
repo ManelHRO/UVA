@@ -2,14 +2,34 @@
 using namespace std;
 
 char mt[102][102];
-int larg[102][102]={-1},perm[102][102]={0};
-int dx[] = {-1,0,1,0,-1,-1,1,1},dy[] = {0,1,0,-1,1,-1,-1,1},x,y;
+int profund[102][102]={0};
+int dx[] = {-1,-1,0,1,1,1,0,-1},dy[] = {0,1,1,1,0,-1,-1,-1},x,y;
+queue<pair<int,int>>q;
+bool vis[102][102]={false};
+
+void ffhorse(int sizei,int sizej){
+	
+	int xx[]={-2,-1,1,2,2,1,-1,-2},yy[]={1,2,2,1,-1,-2,-2,-1};
+	
+	while(!q.empty()){
+		int i=q.front().first;
+		int j=q.front().second;
+		q.pop();
+		for(int k=0;k<8;k++){
+			x=xx[k]+i;
+			y=yy[k]+j;
+			if(x>=0 and x<sizei and y>=0 and y<sizej and mt[x][y]=='.'){
+				mt[x][y]='Z';
+			}
+		}
+	}
+}
 
 void bfs(int linha,int coluna,int sizei,int sizej){
 	queue<pair<int,int> >q;
-	larg[linha][coluna]=0;
+
 	q.push({linha,coluna});
-	
+	vis[linha][coluna]=true;
 	while(!q.empty()){
 		int ax = q.front().first;
 		int ay = q.front().second;
@@ -18,10 +38,10 @@ void bfs(int linha,int coluna,int sizei,int sizej){
 		for(int k=0;k<8;k++){
 			x=dx[k]+ax;
 			y=dy[k]+ay;
-			if(x>=0 and x<sizei and y>=0 and y<sizej and mt[x][y]!='Z'){
-				if()
-				larg[x][y]=larg[ax][ay]+1;
+			if(x>=0 and x<sizei and y>=0 and y<sizej and mt[x][y]!='Z' and !vis[x][y]){
+				profund[x][y]=profund[ax][ay]+1;
 				q.push({x,y});
+				vis[x][y]=true;
 			}
 		}
 	}
@@ -30,8 +50,8 @@ void bfs(int linha,int coluna,int sizei,int sizej){
 int main(){
 	
 	char carac;
-	int t,m,n,linha,coluna;
-	
+	int t,m,n,linha,coluna,f1,f2;
+
 	cin>>t;
 	
 	while(t--){
@@ -41,8 +61,18 @@ int main(){
 				cin>>carac;
 				mt[i][j]=carac;
 				if(carac=='A') linha=i,coluna=j;
+				else if(carac=='B') f1=i,f2=j;
+				else if(carac=='Z') q.push({i,j});
 			}
 		}
+		ffhorse(m,n);
 		bfs(linha,coluna,m,n);
+		
+		if(profund[f1][f2]!=0)cout<<"Minimal possible length of a trip is "<<profund[f1][f2]<<endl;
+		else cout<<"King Peter, you can't go now!"<<endl;
+		
+		memset(mt,' ',sizeof(mt));
+		memset(profund,0,sizeof(profund));
+		memset(vis,0,sizeof(vis));
 	}
 }
