@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+int dx[]={-2,-1,1,2,2,1,-1,-2},dy[]={1,2,2,1,-1,-2,-2,-1},x,y;
+int mt[8][8]={-1};
+
+void bfs(int linha,int coluna){
+	queue<pair<int,int> > Q;
+	mt[linha][coluna]=0;
+	Q.push({linha,coluna});
+	
+	while(!Q.empty()){
+		
+		int ax=Q.front().first;
+		int ay=Q.front().second;
+		Q.pop();
+		for(int k=0;k<8;k++){
+			x=dx[k]+ax;
+			y=dy[k]+ay;
+			if(x>=0 and x<8 and y>=0 and y<8 and mt[x][y]==-1){
+				mt[x][y]=mt[ax][ay]+1;
+				Q.push({x,y});
+			}
+		}
+		
+	}
+}
+int main(){
+	char ci,cf;
+	int linhai,linhaf,coluna,colunaf;
+	
+	while(cin>>ci>>linhai>>cf>>linhaf){
+		coluna=(ci-48)-48;
+		colunaf=(cf-48)-48;
+		
+		memset(mt,-1,sizeof(mt));
+		
+		bfs(linhai-1,coluna-1);
+		cout<<"To get from "<<ci<<linhai<<" to "<<cf<<linhaf<<" takes "<<mt[linhaf-1][colunaf-1]<<" knight moves."<<endl;
+	}
+}
