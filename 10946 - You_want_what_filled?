@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+char mt[53][53];
+bool vis[53][53];
+int dx[] = {-1,0,1,0},dy[] = {0,1,0,-1},cont;
+vector<pair<char,int>> imp;
+
+bool cmp(pair<char,int> x, pair<char,int> y){
+    if(x.second != y.second) return x.second>y.second;
+	return x.first<y.first;
+}
+
+void ff(int i,int j,int m,int n,char carac){
+	cont++;
+	vis[i][j]=true;
+	
+	for(int k=0;k<4;k++){
+		int x=dx[k]+i;
+		int y=dy[k]+j;
+		if(x>=0 and x<m and y>=0 and y<n and !vis[x][y] and mt[x][y]==carac){
+			ff(x,y,m,n,carac);
+		}
+	}
+}
+
+int main(){
+	
+	int m,n,c=0;
+	char carac;
+
+	cin>>m>>n;
+	while(n!=0 and m!=0){
+	
+		for(int i=0;i<m;i++){
+			for(int j=0;j<n;j++) {cin>>mt[i][j];}
+		}
+		
+		for(int i=0;i<m;i++){
+			for(int j=0;j<n;j++){
+				
+				if(mt[i][j]!='.' and !vis[i][j]){
+					carac=mt[i][j];
+					cont=0;
+					ff(i,j,m,n,carac);
+					imp.push_back({carac,cont});
+				}
+			}
+		}
+		sort(imp.begin(),imp.end(),cmp);
+		cout<<"Problem "<<++c<<':'<<endl;
+		for(int i=0;i<(int)imp.size();i++){
+			cout<<imp[i].first<<" "<<imp[i].second<<endl;
+		}
+		
+		imp.clear();
+		memset(vis,false,sizeof(vis));
+		cin>>m>>n;
+	}
+}
