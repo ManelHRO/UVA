@@ -3,19 +3,17 @@
 using namespace std;
 const int INF=1000000000;
 vector<vector<int>> g;
-int total;
 int dx[] = {-1,0,1,0},dy[] = {0,1,0,-1};
 
-void dj(int m,int n){
+int dj(int m,int n){
     min_priority_queue q;
     q.push({g[0][0],{0,0}}); //q.push({0,{0,0}}) and peso and posicao(i/j)
     vector<vector<int>> d(m, vector<int>(n, INF)); //todas as posiçoes começando em infinito
-
+    d[0][0] = g[0][0];
     while(!q.empty()){
-
-        int ax=q.top().first; //posicao da linha que eu to
-        int ay=q.top().second.first; //posicao da coluna que eu to
-        int carg=q.top().second.second; //valor da aresta que eu to
+        int carg=q.top().first; //posicao da linha que eu to
+        int ax=q.top().second.first; //posicao da coluna que eu to
+        int ay=q.top().second.second; //valor da aresta que eu to
         q.pop();
 
         if(d[ax][ay]<carg) continue;
@@ -23,14 +21,14 @@ void dj(int m,int n){
         for(int k=0;k<4;k++){
             int x=dx[k]+ax; //posicao(linha) que eu vou
             int y=dy[k]+ay; //posicao(coluna) que eu vou
-            int z=g[ax][ay]; //valor da aresta que eu vou
-            if(x>=0 and x<m and y>=0 and y<n and d[x][y]>d[ax][ay]+z){
-                d[x][y]=d[ax][ay]+z;
+           
+            if(x>=0 and x<m and y>=0 and y<n and d[x][y]>carg+g[x][y]){
+                d[x][y]=carg+g[x][y];
                 q.push({d[x][y],{x,y}});
-                total=z;
             }
         }
-    }
+    }   
+    return d[m-1][n-1];
 }
 
 int main(){
@@ -39,15 +37,13 @@ int main(){
 
     cin>>t;
     while(t--){
-        cin>>n>>m;
+        cin>>m>>n;
         g.assign(m, vector<int>(n));
         for(int i=0;i<m;i++){
             for(int j = 0; j < n; j++) {
 				cin >> g[i][j];
 			}
         }
-        total=0;
-        dj(m,n);
-        cout<<total<<endl;
+        cout<<dj(m,n)<<endl;
     }
 }
