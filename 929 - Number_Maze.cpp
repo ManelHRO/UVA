@@ -11,9 +11,9 @@ int dj(int m,int n){
     vector<vector<int>> d(m, vector<int>(n, INF)); //todas as posiçoes começando em infinito
     d[0][0] = g[0][0];
     while(!q.empty()){
-        int carg=q.top().first; //posicao da linha que eu to
-        int ax=q.top().second.first; //posicao da coluna que eu to
-        int ay=q.top().second.second; //valor da aresta que eu to
+        int carg=q.top().first; //valor da aresta que eu to
+        int ax=q.top().second.first; //posicao da linha que eu to
+        int ay=q.top().second.second; //posicao da coluba que eu to 
         q.pop();
 
         if(d[ax][ay]<carg) continue;
